@@ -19,9 +19,26 @@ namespace AndroidBinderator
 {
 	public class Engine
 	{
+		public static Task BinderateAsync(string configFile, string basePath = null)
+		{
+			var config = Newtonsoft.Json.JsonConvert.DeserializeObject<BindingConfig>(File.ReadAllText(configFile));
+
+			if (!string.IsNullOrEmpty(basePath))
+				config.BasePath = basePath;
+
+			return BinderateAsync(config);
+		}
+
 		public static async Task BinderateAsync(BindingConfig config)
 		{
-			var maven = MavenRepository.FromGoogle();
+			MavenRepository maven;
+
+			if (config.MavenRepositoryType == MavenRepoType.Directory)
+				maven = MavenRepository.FromDirectory(config.MavenRepositoryLocation);
+			else if (config.MavenRepositoryType == MavenRepoType.Url)
+				maven = MavenRepository.FromUrl(config.MavenRepositoryLocation);
+			else
+				maven = MavenRepository.FromGoogle();
 
 			await maven.Refresh(config.MavenArtifacts.Select(ma => ma.GroupId).Distinct().ToArray());
 

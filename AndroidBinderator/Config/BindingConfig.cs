@@ -8,6 +8,12 @@ namespace AndroidBinderator
 		[JsonProperty("basePath")]
 		public string BasePath { get; set; }
 
+		[JsonProperty("mavenRepositoryType")]
+		public MavenRepoType MavenRepositoryType { get; set; } = MavenRepoType.Google;
+
+		[JsonProperty("mavenRepositoryLocation")]
+		public string MavenRepositoryLocation { get; set; } = null;
+
 		[JsonProperty("generatedDir")]
 		public string GeneratedDir { get; set; } = "generated";
 
@@ -28,5 +34,12 @@ namespace AndroidBinderator
 
 		[JsonProperty("artifacts")]
 		public List<MavenArtifactConfig> MavenArtifacts { get; set; }
+	}
+
+	public enum MavenRepoType
+	{
+		Url,
+		Directory,
+		Google
 	}
 }
