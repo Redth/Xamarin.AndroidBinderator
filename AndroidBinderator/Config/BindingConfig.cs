@@ -34,6 +34,14 @@ namespace AndroidBinderator
 
 		[JsonProperty("artifacts")]
 		public List<MavenArtifactConfig> MavenArtifacts { get; set; }
+
+		[JsonProperty("debug")]
+		public BindingConfigDebug Debug { get; set; } = new BindingConfigDebug();
+	}
+
+	public class BindingConfigDebug
+	{
+		public bool DumpModels { get; set; } = false;
 	}
 
 	public enum MavenRepoType

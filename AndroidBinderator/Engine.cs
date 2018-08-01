@@ -77,7 +77,8 @@ namespace AndroidBinderator
 
 				var json = Newtonsoft.Json.JsonConvert.SerializeObject(models);
 
-				File.WriteAllText(Path.Combine(config.BasePath, "models.json"), json);
+				if (config.Debug.DumpModels)
+					File.WriteAllText(Path.Combine(config.BasePath, "models.json"), json);
 
 				var inputTemplateFile = Path.Combine(config.BasePath, template.TemplateFile);
 				var templateSrc = File.ReadAllText(inputTemplateFile);
