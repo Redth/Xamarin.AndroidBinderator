@@ -4,6 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>7.1</LangVersion>
         <PreserveCompilationContext>true</PreserveCompilationContext>
+        <RootNamespace>AndroidBinderator</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup>

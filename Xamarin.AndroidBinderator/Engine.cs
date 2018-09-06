@@ -188,6 +188,7 @@ namespace AndroidBinderator
 					NuGetVersion = mavenArtifact.NugetVersion,
 					MavenGroupId = mavenArtifact.GroupId,
 					AssemblyName = mavenArtifact.AssemblyName,
+					Config = config
 				};
 				projectModels.Add(projectModel);
 

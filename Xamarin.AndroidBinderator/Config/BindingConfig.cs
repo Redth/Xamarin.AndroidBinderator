@@ -37,10 +37,14 @@ namespace AndroidBinderator
 
 		[JsonProperty("debug")]
 		public BindingConfigDebug Debug { get; set; } = new BindingConfigDebug();
+
+		[JsonProperty("additionalProjects")]
+		public List<string> AdditionalProjects { get; set; }
 	}
 
 	public class BindingConfigDebug
 	{
+		public bool DebugMode { get; set; } = false;
 		public bool DumpModels { get; set; } = false;
 	}
 

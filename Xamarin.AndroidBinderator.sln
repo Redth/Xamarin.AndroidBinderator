@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.AndroidBinderator", "Xamarin.AndroidBinderator\Xamarin.AndroidBinderator.csproj", "{4597ABC5-50A7-43EA-BD73-75BDC2C5C0E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.AndroidBinderator.Console", "Xamarin.AndroidBinderator.Console\Xamarin.AndroidBinderator.Console.csproj", "{663DE4E9-6E1E-4405-B7AD-8BC80B026C2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4597ABC5-50A7-43EA-BD73-75BDC2C5C0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4597ABC5-50A7-43EA-BD73-75BDC2C5C0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4597ABC5-50A7-43EA-BD73-75BDC2C5C0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4597ABC5-50A7-43EA-BD73-75BDC2C5C0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{663DE4E9-6E1E-4405-B7AD-8BC80B026C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{663DE4E9-6E1E-4405-B7AD-8BC80B026C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{663DE4E9-6E1E-4405-B7AD-8BC80B026C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{663DE4E9-6E1E-4405-B7AD-8BC80B026C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

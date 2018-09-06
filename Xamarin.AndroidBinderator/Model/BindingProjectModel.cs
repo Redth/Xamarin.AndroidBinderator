@@ -21,5 +21,7 @@ namespace AndroidBinderator
 		public List<NuGetDependencyModel> NuGetDependencies { get; set; } = new List<NuGetDependencyModel>();
 
 		public List<string> ProjectReferences { get; set; } = new List<string>();
+
+		public BindingConfig Config { get; set; }
 	}
 }

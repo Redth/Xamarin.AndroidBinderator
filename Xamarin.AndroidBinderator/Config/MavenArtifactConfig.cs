@@ -13,7 +13,7 @@ namespace AndroidBinderator
 			GroupId = groupId;
 			ArtifactId = artifactId;
 			Version = version;
-			NugetVersion = nugetVersion ?? version;
+			NugetVersion = nugetVersion;
 			NugetPackageId = nugetPackageId;
 		}
 
@@ -26,8 +26,13 @@ namespace AndroidBinderator
 		[JsonProperty("version")]
 		public string Version { get; set; }
 
+		string nugetVersion = null;
+
 		[JsonProperty("nugetVersion")]
-		public string NugetVersion { get; set; }
+		public string NugetVersion {
+			get { return nugetVersion ?? Version; }
+			set { nugetVersion = value; }
+		}
 
 		[JsonProperty("nugetId")]
 		public string NugetPackageId { get; set; }
