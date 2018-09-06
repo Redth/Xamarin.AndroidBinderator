@@ -21,6 +21,9 @@ Here is what a basic config file might look like:
     {
         "mavenRepositoryType" : "Google",
         "slnFile" : "generated/AndroidSupport.sln",
+        "additionalProjects" : [
+            "source/buildtasks/support-annotations/Support-Annotations-BuildTasks.csproj"
+        ],
         "templates" : [
             {
                 "templateFile": "source/AndroidSupportTargets.cshtml",
@@ -95,6 +98,7 @@ The `@Model` passed into each template looks like this:
 - string[] ProjectReferences
 - MavenArtifactModel[] MavenArtifacts
 - NuGetDependencyModel[] NuGetDependencies
+- BindingConfig Config
 
 @MavenArtifactModel
 - string MavenGroupId
