@@ -119,6 +119,10 @@ namespace AndroidBinderator
 
 			foreach (var mavenArtifact in config.MavenArtifacts)
 			{
+                // Skip downloading dependencies
+                if (mavenArtifact.DependencyOnly)
+                    continue;
+
 				var version = mavenArtifact.Version;
 
 				if (!mavenProjects.TryGetValue($"{mavenArtifact.GroupId}/{mavenArtifact.ArtifactId}-{mavenArtifact.Version}", out var mavenProject))
