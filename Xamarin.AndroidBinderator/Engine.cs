@@ -40,7 +40,7 @@ namespace AndroidBinderator
 			else
 				maven = MavenRepository.FromGoogle();
 
-			await maven.Refresh(config.MavenArtifacts.Select(ma => ma.GroupId).Distinct().ToArray());
+			await maven.Refresh(config.MavenArtifacts.Where(ma => !ma.DependencyOnly).Select(ma => ma.GroupId).Distinct().ToArray());
 
 			var artifactDir = Path.Combine(config.BasePath, config.ExternalsDir);
 			if (!Directory.Exists(artifactDir))
@@ -56,6 +56,9 @@ namespace AndroidBinderator
 
 			foreach (var artifact in config.MavenArtifacts)
 			{
+                if (artifact.DependencyOnly)
+                    continue;
+
 				var mavenGroup = maven.Groups.FirstOrDefault(g => g.Id == artifact.GroupId);
 
 				Project project = null;
