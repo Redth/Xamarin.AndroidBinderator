@@ -6,6 +6,7 @@
 		public string MavenArtifactId { get; set; }
 		public string MavenArtifactVersion { get; set; }
 		public string MavenArtifactPackaging { get; set; }
+		public string MavenArtifactMd5 { get; set; }
 
 		public string DownloadedArtifact { get; set; }
 		public string ProguardFile { get; set; }
