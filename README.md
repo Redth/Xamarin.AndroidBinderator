@@ -105,6 +105,7 @@ The `@Model` passed into each template looks like this:
 - string MavenArtifactId
 - string MavenArtifactVersion
 - string MavenArtifactPackaging
+- string MavenArtifactMd5
 - string DownloadedArtifact
 - string ProguardFile
 
