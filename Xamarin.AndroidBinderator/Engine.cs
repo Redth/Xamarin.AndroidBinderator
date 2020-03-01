@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Razor.Language.Extensions;
 using RazorLight;
 using MavenGroup = MavenNet.Models.Group;
 using ArtifactInfo = System.Collections.Generic.Dictionary<string, string>;
+using System.Security.Cryptography;
 
 namespace AndroidBinderator
 {
@@ -40,7 +41,7 @@ namespace AndroidBinderator
 			else
 				maven = MavenRepository.FromGoogle();
 
-			await maven.Refresh(config.MavenArtifacts.Select(ma => ma.GroupId).Distinct().ToArray());
+			await maven.Refresh(config.MavenArtifacts.Where(ma => !ma.DependencyOnly).Select(ma => ma.GroupId).Distinct().ToArray());
 
 			var artifactDir = Path.Combine(config.BasePath, config.ExternalsDir);
 			if (!Directory.Exists(artifactDir))
@@ -56,6 +57,9 @@ namespace AndroidBinderator
 
 			foreach (var artifact in config.MavenArtifacts)
 			{
+                if (artifact.DependencyOnly)
+                    continue;
+
 				var mavenGroup = maven.Groups.FirstOrDefault(g => g.Id == artifact.GroupId);
 
 				Project project = null;
@@ -133,6 +137,7 @@ namespace AndroidBinderator
 					config.ExternalsDir,
 					mavenArtifact.GroupId);
 				var artifactFile = Path.Combine(artifactDir, $"{mavenArtifact.ArtifactId}.{mavenProject.Packaging}");
+				var md5File = artifactFile + ".md5";
 				var sourcesFile = Path.Combine(artifactDir, $"{mavenArtifact.ArtifactId}-sources.jar");
 				var artifactExtractDir = Path.Combine(artifactDir, mavenArtifact.ArtifactId);
 
@@ -147,6 +152,21 @@ namespace AndroidBinderator
 				using (var astrm = await mvnArt.OpenLibraryFile(mavenArtifact.Version, mavenProject.Packaging))
 				using (var sw = File.Create(artifactFile))
 					await astrm.CopyToAsync(sw);
+
+				// Determine MD5
+				try
+				{
+					// First try download
+					using (var astrm = await mvnArt.OpenLibraryFile(mavenArtifact.Version, mavenProject.Packaging + ".md5"))
+					using (var sw = File.Create(md5File))
+						await astrm.CopyToAsync(sw);
+				}
+				catch
+				{
+					// Then hash the downloaded artifact
+					using (var file = File.OpenRead(artifactFile))
+						File.WriteAllText(md5File, HashMd5(file));
+				}
 
 				if (config.DownloadJavaSourceJars)
 				{
@@ -195,6 +215,8 @@ namespace AndroidBinderator
 
 				var artifactDir = Path.Combine(config.BasePath, config.ExternalsDir, mavenArtifact.GroupId);
 				var artifactFile = Path.Combine(artifactDir, $"{mavenArtifact.ArtifactId}.{mavenProject.Packaging}");
+				var md5File = artifactFile + ".md5";
+				var md5 = File.Exists(md5File) ? File.ReadAllText(md5File) : string.Empty;
 				var artifactExtractDir = Path.Combine(artifactDir, mavenArtifact.ArtifactId);
 
 				var proguardFile = Path.Combine(artifactExtractDir, "proguard.txt");
@@ -205,6 +227,7 @@ namespace AndroidBinderator
 					MavenArtifactId = mavenArtifact.ArtifactId,
 					MavenArtifactPackaging = mavenProject.Packaging,
 					MavenArtifactVersion = mavenArtifact.Version,
+					MavenArtifactMd5 = md5,
 					ProguardFile = File.Exists(proguardFile) ? GetRelativePath(proguardFile, config.BasePath).Replace("/", "\\") : null,
 				});
 
@@ -234,6 +257,7 @@ namespace AndroidBinderator
 							MavenGroupId = mavenDep.GroupId,
 							MavenArtifactId = mavenDep.ArtifactId,
 							MavenArtifactVersion = mavenDep.Version,
+							MavenArtifactMd5 = md5,
 							DownloadedArtifact = artifactFile,
 						}
 					});
@@ -251,6 +275,12 @@ namespace AndroidBinderator
 				folder += Path.DirectorySeparatorChar;
 			Uri folderUri = new Uri(folder);
 			return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+		}
+
+		static string HashMd5(Stream value)
+		{
+			using (var md5 = MD5.Create())
+				return BitConverter.ToString(md5.ComputeHash(value)).Replace("-", "").ToLowerInvariant();
 		}
 
 		// here

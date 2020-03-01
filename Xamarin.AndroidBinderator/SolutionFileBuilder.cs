@@ -38,7 +38,7 @@ namespace AndroidBinderator
 				var xelem = xml.XPathSelectElement("/ns:Project/ns:PropertyGroup/ns:ProjectGuid", csprojNamespaces);
 
 				var prjGuid = xelem?.Value ?? Guid.NewGuid().ToString("B");
-				var prjKey = GetRelativePath(slnFileInfo.DirectoryName, prjPathFileInfo.FullName).Replace("/", "\\");
+				var prjKey = GetRelativePath(slnFileInfo.FullName, prjPathFileInfo.FullName).Replace("/", "\\");
 
 				allProjects.Add((prjGuid, prjName, prjKey));
 			}
@@ -48,7 +48,7 @@ namespace AndroidBinderator
 			{
 				var groupId = p.Value.MavenGroupId;
 				var prjName = groupId + "." + p.Value.Name;
-				var prjKey = GetRelativePath(slnFileInfo.DirectoryName, p.Key).Replace("/", "\\");
+				var prjKey = GetRelativePath(slnFileInfo.FullName, p.Key).Replace("/", "\\");
 				var prjGuid = "{" + p.Value.Id + "}";
 
 				allProjects.Add((prjGuid, prjName, prjKey));
