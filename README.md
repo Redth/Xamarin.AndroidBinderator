@@ -1,3 +1,5 @@
+# MOVED TO: https://github.com/xamarin/XamarinComponents/tree/master/Util/Xamarin.AndroidBinderator
+
 # Xamarin.AndroidBinderator
 
 An engine to generate Xamarin Binding projects from Maven repositories with a JSON config and razor templates.
