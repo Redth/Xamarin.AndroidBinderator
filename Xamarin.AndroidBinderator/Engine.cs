@@ -252,5 +252,7 @@ namespace AndroidBinderator
 			Uri folderUri = new Uri(folder);
 			return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
 		}
+
+		// here
 	}
 }
