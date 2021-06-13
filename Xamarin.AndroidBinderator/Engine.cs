@@ -99,7 +99,7 @@ namespace AndroidBinderator
 					if (!outputFile.Directory.Exists)
 						outputFile.Directory.Create();
 
-					string result = await engine.CompileRenderAsync(inputTemplateFile, templateSrc, model);
+					string result = await engine.CompileRenderAsync(inputTemplateFile, templateSrc, model, model.GetType());
 
 					File.WriteAllText(outputFile.FullName, result);
 
@@ -279,6 +279,11 @@ namespace AndroidBinderator
 
 		static string HashMd5(Stream value)
 		{
+			if (value == null)
+			{
+				return null;
+			}
+
 			using (var md5 = MD5.Create())
 				return BitConverter.ToString(md5.ComputeHash(value)).Replace("-", "").ToLowerInvariant();
 		}
